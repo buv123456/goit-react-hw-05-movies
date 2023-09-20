@@ -1,7 +1,7 @@
 import { LoadMore } from 'components/LoadMore';
 import MovieList from 'components/MovieList';
 import { useEffect, useState } from 'react';
-import { Form, Link, Outlet, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { fetchMovies } from 'services/api';
 
 export default function Movies() {
@@ -17,11 +17,11 @@ export default function Movies() {
     if (!query) return;
     async function getMovies() {
       const resp = await fetchMovies('search/movie?query=' + query, page);
-      const sortedMovies = resp.results.sort(
-        (a, b) => b.popularity - a.popularity
-      );
+      // const sortedMovies = resp.results.sort(
+      //   (a, b) => b.popularity - a.popularity
+      // );
       setTotalMovies(resp.total_results);
-      setFoundMovies(prev => [...prev, ...sortedMovies]);
+      setFoundMovies(prev => [...prev, ...resp.results]);
     }
     getMovies();
   }, [query, page]);
