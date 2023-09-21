@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { fetchMovies } from 'services/api';
 
@@ -6,7 +6,12 @@ export default function MovieDetails() {
   const [movie, setMovie] = useState(null);
   const [genres, setGenres] = useState('');
   const { movieId } = useParams();
+
   const location = useLocation();
+  const goBack = useRef(location?.state?.from ?? '/');
+
+  console.log('goBack.current', goBack.current);
+  console.log('location.state.from', location.state.from);
 
   useEffect(() => {
     async function getMovie() {
@@ -21,7 +26,7 @@ export default function MovieDetails() {
 
   return (
     <>
-      <Link to={location.state?.from ?? '/'}>&#11164; Go back</Link>;
+      <Link to={goBack.current}>&#11164; Go back</Link>;
       {!!movie && (
         <div>
           <img

@@ -1,13 +1,14 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { LoadMore } from './LoadMore';
 
-export default function MovieList({ movies, isLoadMore, onLoadMore, fromURL }) {
+export default function MovieList({ movies, isLoadMore, onLoadMore }) {
+  const location = useLocation();
   return (
     <div>
       <ul>
         {movies.map(({ id, title, poster_path, vote_average }) => (
           <li key={id}>
-            <Link to={'/movies/' + id} state={{ from: fromURL }}>
+            <Link to={'/movies/' + id} state={{ from: location }}>
               <h3>{title}</h3>
               <p>rating: {Math.ceil(vote_average * 10) + '%'}</p>
               <img
