@@ -1,22 +1,12 @@
-import { GoBack } from 'components/GoBack';
-import { useEffect, useMemo, useState } from 'react';
-import {
-  Link,
-  Outlet,
-  useLocation,
-  useParams,
-  useSearchParams,
-} from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { fetchMovies } from 'services/api';
 
-export default function MovieDetails(props) {
+export default function MovieDetails() {
   const [movie, setMovie] = useState(null);
   const [genres, setGenres] = useState('');
-  const [path, setPath] = useState('/');
   const { movieId } = useParams();
   const location = useLocation();
-  // if (location.state.from) setPath(location.state.from);
-  //   path = location.state.from;
 
   useEffect(() => {
     async function getMovie() {
@@ -29,24 +19,9 @@ export default function MovieDetails(props) {
     getMovie();
   }, [movieId]);
 
-  useEffect(() => {}, []);
-
-  // const getPath = () => {
-  //   if (!location.state.from) return;
-  //   path = location.state.from;
-  // };
-
-  const q = useParams();
-  const [w] = useSearchParams();
-
-  console.log('path', path);
-  console.log('location', location);
-  console.log('q', q);
-  console.log('w', w);
-  console.log('props', props);
   return (
     <>
-      <Link to={path}>&#11164; Go back</Link>;
+      <Link to={location.state?.from ?? '/'}>&#11164; Go back</Link>;
       {!!movie && (
         <div>
           <img
