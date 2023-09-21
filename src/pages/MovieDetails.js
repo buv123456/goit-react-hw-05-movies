@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { fetchMovies } from 'services/api';
 
@@ -10,12 +10,9 @@ export default function MovieDetails() {
   const location = useLocation();
   const goBack = useRef(location?.state?.from ?? '/');
 
-  console.log('goBack.current', goBack.current);
-  console.log('location.state.from', location.state.from);
-
   useEffect(() => {
     async function getMovie() {
-      const results = await fetchMovies('/movie/' + movieId);
+      const results = await fetchMovies(`/movie/${movieId}`);
       setMovie(results);
       setGenres(
         results.genres.map(({ name }) => name.toLowerCase()).join(', ')
@@ -30,10 +27,7 @@ export default function MovieDetails() {
       {!!movie && (
         <div>
           <img
-            src={
-              'https://www.themoviedb.org/t/p/w220_and_h330_face/' +
-              movie.poster_path
-            }
+            src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
             alt={movie.title}
           />
           <div>
@@ -48,7 +42,9 @@ export default function MovieDetails() {
           </div>
           <Link to="cast">Team</Link>
           <Link to="reviews">Reviews</Link>
-          <Outlet />
+          <Suspense fallback={<p>Loading...</p>}>
+            <Outlet />
+          </Suspense>
         </div>
       )}
     </>

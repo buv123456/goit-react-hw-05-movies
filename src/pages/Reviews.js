@@ -8,13 +8,12 @@ export default function Reviews() {
 
   useEffect(() => {
     async function getReviews() {
-      const results = await fetchMovies('/movie/' + movieId + '/reviews');
-      console.log(results);
+      const results = await fetchMovies(`/movie/${movieId}/reviews`, 'results');
       setReviews(results.results);
     }
     getReviews();
   }, [movieId]);
-  console.log(reviews);
+
   if (!reviews.length) return <p>There are no reviews yet.</p>;
 
   return (

@@ -9,34 +9,26 @@ export default function Movies() {
   const query = searchParams.get('query') ?? '';
 
   const [foundMovies, setFoundMovies] = useState([]);
-  const [page, setPage] = useState(1);
-  const [totalMovies, setTotalMovies] = useState(0);
-  const [queryState, setQueryState] = useState(query);
+  const [queryState, setQueryState] = useState('');
 
   useEffect(() => {
-    if (!query) return;
+    if (!queryState && !query) return;
+    const q = query || queryState;
     async function getMovies() {
-      const resp = await fetchMovies('search/movie?query=' + query, page);
-      // const sortedMovies = resp.results.sort(
-      //   (a, b) => b.popularity - a.popularity
-      // );
-      setTotalMovies(resp.total_results);
-      setFoundMovies(prev => [...prev, ...resp.results]);
+      const resp = await fetchMovies(`search/movie?query=${q}`, 'results');
+      setFoundMovies(resp.results);
     }
     getMovies();
-  }, [query, page]);
+  }, [query, queryState]);
 
   const handleSubmit = e => {
     e.preventDefault();
     const movieText = e.target.elements.name.value;
     if (!movieText || movieText === queryState) return;
     setFoundMovies([]);
-    setPage(1);
     setQueryState(movieText);
     setSearchParams({ query: movieText });
   };
-
-  const isLoadMore = totalMovies / foundMovies.length > 1;
 
   return (
     <div>
@@ -44,15 +36,7 @@ export default function Movies() {
         <input type="text" name="name" placeholder="add movie name..." />
         <button type="submit">search</button>
       </form>
-      {!!foundMovies.length && (
-        <MovieList
-          movies={foundMovies}
-          onLoadMore={() => setPage(prev => prev + 1)}
-          isLoadMore={isLoadMore}
-          fromURL={'search/movie?query=' + query}
-        />
-      )}
-      {/* {loadMore && <LoadMore onClick={() => setPage(prev => prev + 1)} />} */}
+      {!!foundMovies.length && <MovieList movies={foundMovies} />}
     </div>
   );
 }

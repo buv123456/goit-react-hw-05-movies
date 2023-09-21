@@ -1,42 +1,43 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMovies } from 'services/api';
+import noImg from 'no-photo.png';
 
 export default function Cast() {
   const { movieId } = useParams();
-  const [cast, setCast] = useState(null);
+  const [cast, setCast] = useState([]);
 
   useEffect(() => {
     async function getCast() {
-      const results = await fetchMovies('/movie/' + movieId + '/credits');
-
+      const results = await fetchMovies(`/movie/${movieId}/credits`, 'cast');
       setCast(results.cast);
     }
     getCast();
   }, [movieId]);
-  console.log(cast);
+
+  console.log('cast', cast, cast.length);
+  if (!cast.length) return <p>There is no data.</p>;
+
   return (
-    !!cast && (
+    !!cast.length && (
       <ul>
-        {cast
-          .filter(i => !!i.profile_path)
-          .map(({ id, name, profile_path, character }) => (
-            <li key={id}>
-              <h3>{name}</h3>
-              {
-                <img
-                  src={
-                    'https://www.themoviedb.org/t/p/w138_and_h175_face' +
-                    profile_path
-                  }
-                  width="10%"
-                  min-height="300"
-                  alt={name}
-                />
-              }
-              <p>as {character}</p>
-            </li>
-          ))}
+        {cast.map(({ id, name, profile_path, character }) => (
+          <li key={id}>
+            <h3>{name}</h3>
+            {
+              <img
+                src={
+                  profile_path
+                    ? `https://image.tmdb.org/t/p/w200/${profile_path}`
+                    : noImg
+                }
+                width="10%"
+                alt={name}
+              />
+            }
+            <p>as {character}</p>
+          </li>
+        ))}
       </ul>
     )
   );
