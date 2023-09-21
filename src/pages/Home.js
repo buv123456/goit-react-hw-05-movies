@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import MovieList from 'components/MovieList';
 import { fetchMovies } from 'services/api';
-import { LoadMore } from 'components/LoadMore';
+// import { LoadMore } from 'components/LoadMore';
 
 export default function Home() {
   const [trends, setTrends] = useState([]);
-  const [page, setPageCount] = useState(1);
+  const [page, setPage] = useState(1);
   const [totalMovies, setTotalMovies] = useState(0);
 
   useEffect(() => {
@@ -20,12 +20,18 @@ export default function Home() {
     fetchTrendMovie();
   }, [page]);
 
-  const loadMore = totalMovies / trends.length > 1;
+  const isLoadMore = totalMovies / trends.length > 1;
 
   return (
     <div>
-      {!!trends && <MovieList movies={trends} />}
-      {loadMore && <LoadMore onClick={() => setPageCount(prev => prev + 1)} />}
+      {!!trends && (
+        <MovieList
+          movies={trends}
+          onLoadMore={() => setPage(prev => prev + 1)}
+          isLoadMore={isLoadMore}
+          fromURL="/"
+        />
+      )}
     </div>
   );
 }

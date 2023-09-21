@@ -1,4 +1,4 @@
-import { LoadMore } from 'components/LoadMore';
+// import { LoadMore } from 'components/LoadMore';
 import MovieList from 'components/MovieList';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -36,7 +36,7 @@ export default function Movies() {
     setSearchParams({ query: movieText });
   };
 
-  const loadMore = totalMovies / foundMovies.length > 1;
+  const isLoadMore = totalMovies / foundMovies.length > 1;
 
   return (
     <div>
@@ -44,8 +44,15 @@ export default function Movies() {
         <input type="text" name="name" placeholder="add movie name..." />
         <button type="submit">search</button>
       </form>
-      {!!foundMovies.length && <MovieList movies={foundMovies} />}
-      {loadMore && <LoadMore onClick={() => setPage(prev => prev + 1)} />}
+      {!!foundMovies.length && (
+        <MovieList
+          movies={foundMovies}
+          onLoadMore={() => setPage(prev => prev + 1)}
+          isLoadMore={isLoadMore}
+          fromURL={'search/movie?query=' + query}
+        />
+      )}
+      {/* {loadMore && <LoadMore onClick={() => setPage(prev => prev + 1)} />} */}
     </div>
   );
 }
