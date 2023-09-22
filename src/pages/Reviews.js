@@ -9,7 +9,7 @@ export default function Reviews() {
   useEffect(() => {
     async function getReviews() {
       const results = await fetchMovies(`/movie/${movieId}/reviews`, 'results');
-      setReviews(results.results);
+      if (results) setReviews(results.results);
     }
     getReviews();
   }, [movieId]);

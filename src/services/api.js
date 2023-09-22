@@ -8,10 +8,12 @@ axios.defaults.headers = {
     'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzYWEyYjVkODRiMDI5YTNkNmI3ODJjYWI0MDM5NDM2MSIsInN1YiI6IjY1MDBhNjg4ZmZjOWRlMGVkZWQ0NDM3NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.DBpPzdh_xDNK2b4lthob9TnOTsJbTHp8xNZgeluLuGQ',
 };
 
-let cancelToken;
-
+const controller = {};
 export async function fetchMovies(str, value) {
-  cancelToken = axios.CancelToken.source();
+  if (controller.current) {
+    controller.current.abort();
+  }
+  controller.current = new AbortController();
 
   const toastId = toast.loading('Loading...');
   const toastIdOptions = {
@@ -19,7 +21,9 @@ export async function fetchMovies(str, value) {
     duration: 3000,
   };
   try {
-    const { data } = await axios(str, { cancelToken: cancelToken.token });
+    const { data } = await axios(str, {
+      signal: controller.current.signal,
+    });
     if (value && data[value].length === 0) {
       toast('There are no data for your request', toastIdOptions);
     } else {

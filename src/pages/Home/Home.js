@@ -8,7 +8,7 @@ export default function Home() {
   useEffect(() => {
     async function fetchTrendMovie() {
       const resp = await fetchMovies('/trending/movie/day', 'results');
-      setTrends(resp.results);
+      if (resp) setTrends(resp.results);
     }
     fetchTrendMovie();
   }, []);
