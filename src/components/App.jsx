@@ -2,16 +2,17 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from './Layout/Layout';
 import { lazy } from 'react';
 import { Toaster } from 'react-hot-toast';
+import { Container } from './App.style';
 
-const Home = lazy(() => import('../pages/Home/Home'));
+const Home = lazy(() => import('../pages/Home'));
 const Movies = lazy(() => import('../pages/Movies'));
 const MovieDetails = lazy(() => import('../pages/MovieDetails/MovieDetails'));
-const Cast = lazy(() => import('../pages/Cast'));
+const Cast = lazy(() => import('../pages/Cast/Cast'));
 const Reviews = lazy(() => import('../pages/Reviews'));
 
 export const App = () => {
   return (
-    <div>
+    <Container>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
@@ -24,6 +25,6 @@ export const App = () => {
         </Route>
       </Routes>
       <Toaster position="top-right" reverseOrder={false} gutter={8} />
-    </div>
+    </Container>
   );
 };

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMovies } from 'services/api';
 import noImg from 'no-photo.png';
+import { List, Photo, Profile, Text, Title } from './Cast.styled';
 
 export default function Cast() {
   const { movieId } = useParams();
@@ -18,24 +19,24 @@ export default function Cast() {
   return !cast.length ? (
     <p>There is no data.</p>
   ) : (
-    <ul>
+    <List>
       {cast.map(({ id, name, profile_path, character }) => (
-        <li key={id}>
-          <h3>{name}</h3>
+        <Profile key={id}>
+          <Title>{name}</Title>
           {
-            <img
+            <Photo
               src={
                 profile_path
                   ? `https://image.tmdb.org/t/p/w200/${profile_path}`
                   : noImg
               }
-              width="10%"
+              width="100%"
               alt={name}
             />
           }
-          <p>as {character}</p>
-        </li>
+          <Text>as {character}</Text>
+        </Profile>
       ))}
-    </ul>
+    </List>
   );
 }

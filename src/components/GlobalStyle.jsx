@@ -16,12 +16,14 @@ code {
     monospace;
 }
 
-
 * {
   margin: 0;
   padding: 0;
 }
 
+main {
+  padding: 0 10px 10px;
+}
 ul {
   list-style: none;
 }

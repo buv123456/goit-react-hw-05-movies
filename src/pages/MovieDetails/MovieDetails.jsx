@@ -1,8 +1,16 @@
 import { Suspense, useEffect, useRef, useState } from 'react';
-import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
+import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { fetchMovies } from 'services/api';
 import noImg from 'no-poster.webp';
-import { MovieDetailsS } from './MovieDetailsS.style';
+import {
+  GoBack,
+  LinkStyled,
+  MovieWrap,
+  Nav,
+  Overview,
+  Rating,
+  Title,
+} from './MovieDetails.style';
 
 export default function MovieDetails() {
   const [movie, setMovie] = useState(null);
@@ -26,11 +34,11 @@ export default function MovieDetails() {
   }, [movieId]);
 
   return (
-    <>
-      <Link to={goBack.current}>&#11164; Go back</Link>;
+    <main>
+      <GoBack to={goBack.current}>&#11164; Go back</GoBack>
       {!!movie && (
         <div>
-          <MovieDetailsS>
+          <MovieWrap>
             <img
               src={
                 movie.poster_path
@@ -40,23 +48,27 @@ export default function MovieDetails() {
               alt={movie.title}
             />
             <div>
-              <h1>{movie.title}</h1>
+              <Title>{movie.title}</Title>
               <p>
                 Release date:{' '}
                 {new Date(movie.release_date).toLocaleDateString('uk-UA')}
               </p>
               <p>Genres: {genres}</p>{' '}
-              <p>Rating: {Math.ceil(movie.vote_average * 10) + '%'}</p>
-              <p>{movie.overview}</p>
-              <Link to="cast">Team</Link>
-              <Link to="reviews">Reviews</Link>
+              <Rating>
+                Rating: {Math.ceil(movie.vote_average * 10) + '%'}
+              </Rating>
+              <Overview>{movie.overview}</Overview>
+              <Nav>
+                <LinkStyled to="cast">Cast</LinkStyled>
+                <LinkStyled to="reviews">Reviews</LinkStyled>
+              </Nav>
             </div>
-          </MovieDetailsS>
+          </MovieWrap>
           <Suspense fallback={<p>Loading...</p>}>
             <Outlet />
           </Suspense>
         </div>
       )}
-    </>
+    </main>
   );
 }

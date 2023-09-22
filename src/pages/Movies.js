@@ -1,4 +1,3 @@
-// import { LoadMore } from 'components/LoadMore';
 import MovieList from 'components/MovieList';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
