@@ -16,21 +16,22 @@ export async function fetchMovies(str, value) {
   controller.current = new AbortController();
 
   const toastId = toast.loading('Loading...');
-  const toastIdOptions = {
-    id: toastId,
-    duration: 3000,
-  };
   try {
     const { data } = await axios(str, {
       signal: controller.current.signal,
     });
     if (value && data[value].length === 0) {
-      toast('There are no data for your request', toastIdOptions);
+      toast('There are no data for your request', { id: toastId });
     } else {
-      toast.success(`Ok. We found something!`, toastIdOptions);
+      toast.success(`Ok. We found something!`, { id: toastId });
     }
     return data;
   } catch (error) {
-    toast.error('Something goes wrong. Reload page', toastIdOptions);
+    toast.dismiss(toastId);
+    if (error.name !== 'CanceledError') {
+      toast.error('Something goes wrong. Reload page', {
+        duration: 10000,
+      });
+    }
   }
 }

@@ -5,13 +5,11 @@ export const List = styled.ul`
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   gap: 10px;
-  margin-top: 15px;
 `;
 
 export const Profile = styled.li`
   height: 100%;
   width: 100%;
-
   aspect-ratio: 2/3;
   position: relative;
   display: flex;
@@ -40,4 +38,10 @@ export const Photo = styled.img`
 export const Text = styled.p`
   font-size: 11px;
   margin-top: 4px;
+`;
+
+export const TextSt = styled.p`
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 20px;
 `;

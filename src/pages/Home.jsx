@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import MovieList from 'components/MovieList';
+import MovieList from 'components/MovieList/MovieList';
 import { fetchMovies } from 'services/api';
 
 export default function Home() {
@@ -13,5 +13,5 @@ export default function Home() {
     fetchTrendMovie();
   }, []);
 
-  return <main>{trends.length>0 && <MovieList movies={trends} />}</main>;
+  return <main>{trends.length > 0 && <MovieList movies={trends} />}</main>;
 }

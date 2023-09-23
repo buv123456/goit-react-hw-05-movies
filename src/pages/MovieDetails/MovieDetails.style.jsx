@@ -7,7 +7,10 @@ export const MovieWrap = styled.div`
   font-size: 12px;
   display: flex;
   gap: 10px;
-  box-shadow: 2px 2px 10px grey;
+  margin-bottom: 10px;
+  box-shadow: 4px 4px 10px grey;
+  border-radius: 5px;
+  overflow: hidden;
 `;
 
 export const GoBack = styled(Link)`
@@ -23,7 +26,7 @@ export const GoBack = styled(Link)`
 `;
 export const Overview = styled.p`
   width: 100%;
-  height: auto;
+  height: 300px;
   font-size: 20px;
   margin-top: 8px;
   margin-bottom: 30px;

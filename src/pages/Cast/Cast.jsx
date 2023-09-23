@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMovies } from 'services/api';
-import noImg from 'no-photo.png';
-import { List, Photo, Profile, Text, Title } from './Cast.styled';
+import noImg from 'images/no-photo.png';
+import { List, Photo, Profile, Text, TextSt, Title } from './Cast.styled';
 
 export default function Cast() {
   const { movieId } = useParams();
@@ -16,9 +16,7 @@ export default function Cast() {
     getCast();
   }, [movieId]);
 
-  return !cast.length ? (
-    <p>There is no data.</p>
-  ) : (
+  return cast.length > 0 ? (
     <List>
       {cast.map(({ id, name, profile_path, character }) => (
         <Profile key={id}>
@@ -38,5 +36,7 @@ export default function Cast() {
         </Profile>
       ))}
     </List>
+  ) : (
+    <TextSt>There is no data.</TextSt>
   );
 }

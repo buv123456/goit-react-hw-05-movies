@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import noImg from 'no-poster.webp';
+import noImg from 'images/no-poster.webp';
 import { ListItem, List, Card, Title, Rating, Poster } from './MovieList.style';
 
 export default function MovieList({ movies }) {

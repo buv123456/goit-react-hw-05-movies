@@ -1,7 +1,7 @@
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { fetchMovies } from 'services/api';
-import noImg from 'no-poster.webp';
+import noImg from 'images/no-poster.webp';
 import {
   GoBack,
   LinkStyled,
@@ -14,7 +14,6 @@ import {
 
 export default function MovieDetails() {
   const [movie, setMovie] = useState(null);
-  const [genres, setGenres] = useState('');
   const { movieId } = useParams();
 
   const location = useLocation();
@@ -25,9 +24,6 @@ export default function MovieDetails() {
       const results = await fetchMovies(`/movie/${movieId}`);
       if (results) {
         setMovie(results);
-        setGenres(
-          results.genres.map(({ name }) => name.toLowerCase()).join(', ')
-        );
       }
     }
     getMovie();
@@ -36,7 +32,7 @@ export default function MovieDetails() {
   return (
     <main>
       <GoBack to={goBack.current}>&#11164; Go back</GoBack>
-      {!!movie && (
+      {movie && (
         <div>
           <MovieWrap>
             <img
@@ -53,7 +49,10 @@ export default function MovieDetails() {
                 Release date:{' '}
                 {new Date(movie.release_date).toLocaleDateString('uk-UA')}
               </p>
-              <p>Genres: {genres}</p>{' '}
+              <p>
+                Genres:{' '}
+                {movie.genres.map(({ name }) => name.toLowerCase()).join(', ')}
+              </p>{' '}
               <Rating>
                 Rating: {Math.ceil(movie.vote_average * 10) + '%'}
               </Rating>
