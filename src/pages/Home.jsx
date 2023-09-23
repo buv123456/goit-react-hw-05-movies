@@ -13,5 +13,5 @@ export default function Home() {
     fetchTrendMovie();
   }, []);
 
-  return <main>{!!trends && <MovieList movies={trends} />}</main>;
+  return <main>{trends.length>0 && <MovieList movies={trends} />}</main>;
 }

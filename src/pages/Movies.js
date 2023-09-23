@@ -24,7 +24,6 @@ export default function Movies() {
     e.preventDefault();
     const movieText = e.target.elements.name.value;
     if (!movieText || movieText === queryState) return;
-    setFoundMovies([]);
     setQueryState(movieText);
     setSearchParams({ query: movieText });
   };
